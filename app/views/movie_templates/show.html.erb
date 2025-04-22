@@ -1,75 +1,37 @@
-<h1>
-  Movie #<%= @the_movie.id %> details
-</h1>
+<h1><%= @the_movie.title %></h1>
 
-<a href="/movies">
-  Go back
-</a>
+<p><strong>Year:</strong> <%= @the_movie.year %></p>
+<p><strong>Duration:</strong> <%= @the_movie.duration %> minutes</p>
+<p><strong>Description:</strong> <%= @the_movie.description %></p>
+<p><strong>Image:</strong></p>
+<img src="<%= @the_movie.image %>" style="width: 200px;">
 
-<hr>
-
-<dl>
-  <dt>
-    Title
-  </dt>
-  <dd>
-    <%= @the_movie.title %>
-  </dd>
-
-  <dt>
-    Year
-  </dt>
-  <dd>
-    <%= @the_movie.year %>
-  </dd>
-
-  <dt>
-    Duration
-  </dt>
-  <dd>
-    <%= @the_movie.duration %>
-  </dd>
-
-  <dt>
-    Description
-  </dt>
-  <dd>
-    <%= @the_movie.description %>
-  </dd>
-
-  <dt>
-    Image
-  </dt>
-  <dd>
-    <img src="<%= @the_movie.image %>" style="width:250px;">
-  </dd>
-
-  <dt>
-    Director
-  </dt>
-  <dd>
-    <% dir_id = @the_movie.director_id %>
-    
-    <% matching_directors = Director.where({ :id => dir_id }) %>
-    
-    <% the_director = matching_directors.at(0) %>
-
-    <%= the_director.name %>
-  </dd>
-
-  <dt>
-    Created at
-  </dt>
-  <dd>
-    <%= @the_movie.created_at %>
-  </dd>
-
-  <dt>
-    Updated at
-  </dt>
-  <dd>
-    <%= @the_movie.updated_at %>
-  </dd>
-</dl>
+<p><strong>Director:</strong> <%= @the_movie.director.name %></p>
 
 <hr>
+
+<h2>Update movie</h2>
+
+<form action="/modify_movie/<%= @the_movie.id %>" method="post">
+  <label for="image_input">Image</label>
+  <input id="image_input" name="query_image" value="<%= @the_movie.image %>">
+
+  <label for="title_input">Title</label>
+  <input id="title_input" name="query_title" value="<%= @the_movie.title %>">
+
+  <label for="year_input">Year</label>
+  <input id="year_input" name="query_year" value="<%= @the_movie.year %>">
+
+  <label for="duration_input">Duration</label>
+  <input id="duration_input" name="query_duration" value="<%= @the_movie.duration %>">
+
+  <label for="description_input">Description</label>
+  <input id="description_input" name="query_description" value="<%= @the_movie.description %>">
+
+  <label for="director_input">Director ID</label>
+  <input id="director_input" name="query_director_id" value="<%= @the_movie.director_id %>">
+
+  <button type="submit">Update movie</button>
+</form>
+
+<p><a href="/delete_movie/<%= @the_movie.id %>">Delete this movie</a></p>

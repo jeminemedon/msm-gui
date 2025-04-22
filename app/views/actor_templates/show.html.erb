@@ -1,122 +1,34 @@
-<h1>
-  Actor #<%= @the_actor.id %> details
-</h1>
+<h1><%= @the_actor.name %></h1>
 
-<a href="/actors">
-  Go back
-</a>
+<p><strong>Dob:</strong> <%= @the_actor.dob %></p>
+<p><strong>Bio:</strong> <%= @the_actor.bio %></p>
 
-<hr>
-
-<dl>
-  <dt>
-    Name
-  </dt>
-  <dd>
-    <%= @the_actor.name %>
-  </dd>
-
-  <dt>
-    Dob
-  </dt>
-  <dd>
-    <%= @the_actor.dob %>
-  </dd>
-
-  <dt>
-    Bio
-  </dt>
-  <dd>
-    <%= @the_actor.bio %>
-  </dd>
-
-  <dt>
-    Image
-  </dt>
-  <dd>
-    <img src="<%= @the_actor.image %>" style="width:250px;">
-  </dd>
-
-  <dt>
-    Created at
-  </dt>
-  <dd>
-    <%= @the_actor.created_at %>
-  </dd>
-
-  <dt>
-    Updated at
-  </dt>
-  <dd>
-    <%= @the_actor.updated_at %>
-  </dd>
-</dl>
+<% @the_actor.characters.each do |character| %>
+  <p>
+    <strong>Character:</strong> <%= character.name %><br>
+    <strong>Movie:</strong> <%= character.movie.title %><br>
+    <strong>Director:</strong> <%= character.movie.director.name %>
+  </p>
+<% end %>
 
 <hr>
 
-<h2>Filmography</h2>
+<h2>Update actor</h2>
 
-<table border="1">
-  <tr>
-    <th>
-      Title
-    </th>
+<form action="/modify_actor/<%= @the_actor.id %>" method="post">
+  <label for="image_input">Image</label>
+  <input id="image_input" name="query_image" value="<%= @the_actor.image %>">
 
-    <th>
-      Year
-    </th>
+  <label for="name_input">Name</label>
+  <input id="name_input" name="query_name" value="<%= @the_actor.name %>">
 
-    <th>
-      Director
-    </th>
+  <label for="dob_input">Dob</label>
+  <input id="dob_input" name="query_dob" value="<%= @the_actor.dob %>">
 
-    <th>
-      Character name
-    </th>
+  <label for="bio_input">Bio</label>
+  <input id="bio_input" name="query_bio" value="<%= @the_actor.bio %>">
 
-    <th>
-    </th>
-  </tr>
+  <button type="submit">Update actor</button>
+</form>
 
-  <% a_id = @the_actor.id %>
-
-  <% matching_characters = Character.where({ :actor_id => a_id }) %>
-
-  <% matching_characters.each do |a_character| %>
-    <% m_id = a_character.movie_id %>
-
-    <% matching_movies = Movie.where({ :id => m_id }) %>
-
-    <% the_movie = matching_movies.at(0) %>
-
-    <tr>
-      <td>
-        <%= the_movie.title %>
-      </td>
-
-      <td>
-        <%= the_movie.year %>
-      </td>
-
-      <td>
-        <% d_id = the_movie.director_id %>
-        
-        <% matching_directors = Director.where({ :id => d_id }) %>
-        
-        <% the_director = matching_directors.at(0) %>
-
-        <%= the_director.name %>
-      </td>
-
-      <td>
-        <%= a_character.name %>
-      </td>
-
-      <td>
-        <a href="/movies/<%= the_movie.id %>">
-          Show details
-        </a>
-      </td>
-    </tr>
-  <% end %>
-</table>
+<p><a href="/delete_actor/<%= @the_actor.id %>">Delete this actor</a></p>

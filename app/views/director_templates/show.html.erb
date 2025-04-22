@@ -1,120 +1,31 @@
-<h1>
-  Director #<%= @the_director.id %> details
-</h1>
+<h1><%= @the_director.name %></h1>
 
-<a href="/directors">
-  Go back
-</a>
+<p><strong>Date of Birth:</strong> <%= @the_director.dob %></p>
+<p><strong>Bio:</strong> <%= @the_director.bio %></p>
+<p><strong>Image:</strong> <%= @the_director.image %></p>
 
-<hr>
+<h2>Movies by <%= @the_director.name %></h2>
+<% @the_director.movies.each do |movie| %>
+  <div>
+    <p><%= movie.title %></p>
+    <a href="/movies/<%= movie.id %>">Show details</a>
+  </div>
+<% end %>
 
-<dl>
-  <dt>
-    Name
-  </dt>
-  <dd>
-    <%= @the_director.name %>
-  </dd>
+<h2>Update Director</h2>
 
-  <dt>
-    Dob
-  </dt>
-  <dd>
-    <%= @the_director.dob %>
-  </dd>
+<form action="/modify_director/<%= @the_director.id %>" method="post">
+  <label for="name_field">Name</label>
+  <input id="name_field" type="text" name="query_name" value="<%= @the_director.name %>">
 
-  <dt>
-    Bio
-  </dt>
-  <dd>
-    <%= @the_director.bio %>
-  </dd>
+  <label for="dob_field">Dob</label>
+  <input id="dob_field" type="text" name="query_dob" value="<%= @the_director.dob %>">
 
-  <dt>
-    Image
-  </dt>
-  <dd>
-    <img src="<%= @the_director.image %>" style="width:250px;">
-  </dd>
+  <label for="bio_field">Bio</label>
+  <input id="bio_field" type="text" name="query_bio" value="<%= @the_director.bio %>">
 
-  <dt>
-    Created at
-  </dt>
-  <dd>
-    <%= @the_director.created_at %>
-  </dd>
+  <label for="image_field">Image</label>
+  <input id="image_field" type="text" name="query_image" value="<%= @the_director.image %>">
 
-  <dt>
-    Updated at
-  </dt>
-  <dd>
-    <%= @the_director.updated_at %>
-  </dd>
-</dl>
-
-<hr>
-
-<h2>Filmography</h2>
-
-<table border="1">
-  <tr>
-    <th>
-      ID
-    </th>
-
-    <th>
-      Image
-    </th>
-
-    <th>
-      Title
-    </th>
-
-    <th>
-      Year
-    </th>
-
-    <th>
-      Director
-    </th>
-
-    <th>
-    </th>
-  </tr>
-
-  <% the_id = @the_director.id %>
-
-  <% matching_movies = Movie.where({ :director_id => the_id }) %>
-  
-  <% films = matching_movies.order({ :year => :asc }) %>
-
-  <% films.each do |a_movie| %>
-  <tr>
-    <td>
-      <%= a_movie.id %>
-    </td>
-
-    <td>
-      <img src="<%= a_movie.image %>" style="width:250px;">
-    </td>
-
-    <td>
-      <%= a_movie.title %>
-    </td>
-
-    <td>
-      <%= a_movie.year %>
-    </td>
-
-    <td>
-      <%= @the_director.name %>
-    </td>
-
-    <td>
-      <a href="/movies/<%= a_movie.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
-  <% end %>
-</table>
+  <button type="submit">Update director</button>
+</form>
